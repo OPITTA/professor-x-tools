@@ -1,0 +1,36 @@
+package com.github.professor_x_core.interfaces;
+
+import com.github.professor_x_core.model.Report;
+import com.github.professor_x_core.util.Logger;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author xin.cao@100credit.com
+ */
+public abstract class Method {
+
+    abstract public void exec(Object params) throws Exception;
+
+    public final void run(Object params) {
+        long startTime = System.currentTimeMillis();
+        try {
+            exec(params);
+        } catch (Exception ex) {
+            Report.getInstance().addErrorNumber(1);
+            Logger.info(String.format("exception : %s", ex.getMessage()));
+        } finally {
+            long costTime = System.currentTimeMillis() - startTime;
+            if (costTime > 1000) {
+                if (params instanceof ArrayList) {
+                    Logger.info(String.format("warn params = %s time = %s", ((ArrayList<String>) params).toString(), costTime));
+                } else {
+                    Logger.info(String.format("warn params = %s time = %s", params.toString(), costTime));
+                }
+            }
+            Report.getInstance().changeMaxCostTime(costTime);
+            Report.getInstance().changeMinCostTime(costTime);
+            Report.getInstance().addConcurrenceCostTime(costTime);
+        }
+    }
+}
