@@ -51,7 +51,7 @@ public class Worker implements Runnable {
                     Thread.sleep(time);
                 }
             } catch (InterruptedException ex) {
-                Logger.info(ex.getMessage());
+                Logger.info("工作线程关闭完成");
                 return;
             }
         }

@@ -1,0 +1,14 @@
+/**
+ * 欢迎浏览和修改代码，有任何想法可以email我
+ */
+package com.github.professor_x_core.interfaces;
+
+/**
+ *
+ * @author 510655387@qq.com
+ */
+public interface Result {
+
+    public void output(int concurrency, int total, long minRT, long maxRT, double averageRT, double tps, double errorNumber);
+
+}

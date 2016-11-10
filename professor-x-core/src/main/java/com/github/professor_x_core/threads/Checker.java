@@ -1,5 +1,6 @@
 package com.github.professor_x_core.threads;
 
+import com.github.professor_x_core.interfaces.Result;
 import com.github.professor_x_core.model.Report;
 import com.github.professor_x_core.service.TaskPoolService;
 import com.github.professor_x_core.util.Logger;
@@ -12,24 +13,26 @@ import com.github.professor_x_core.util.Logger;
 public class Checker implements Runnable {
 
     private static long CD = 1 * 1000;
+    private Result result;
 
-    private Checker() {
+    private Checker(Result result) {
+        this.result = result;
     }
 
-    public static void start() {
-        start(-1);
+    public static void start(Result result) {
+        start(-1, result);
     }
 
     private static final TaskPoolService taskPool = TaskPoolService.getInstance();
     public int CONFIRM_NUMBER = 0;
     public static int CONFIRM_NUMBER_MAX = 2;
 
-    public static void start(long cd) {
+    public static void start(long cd, Result result) {
         if (cd > 0) {
             Checker.CD = cd;
         }
         Logger.info("状态检测线程启动");
-        Checker checker = new Checker();
+        Checker checker = new Checker(result);
         Thread thread = new Thread(checker, "状态检测线程");
         thread.start();
     }
@@ -58,6 +61,9 @@ public class Checker implements Runnable {
                         report.getConcurrenceCostTime().get() * 1.0 / total,
                         (total * 1.0 / (endTime - report.getStartTime())) * 1000,
                         (report.getErrorNumber() * 1.0 / total) * 100));
+                if (result != null) {
+                    result.output(report.getConcurrent(), total, report.getMinCostTime(), report.getMaxCostTime(), report.getConcurrenceCostTime().get() * 1.0 / total, (total * 1.0 / (endTime - report.getStartTime())) * 1000, (report.getErrorNumber() * 1.0 / total) * 100);
+                }
                 return;
             }
             if (size == 0) {
