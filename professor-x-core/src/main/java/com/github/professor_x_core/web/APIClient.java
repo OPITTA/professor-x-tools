@@ -70,7 +70,7 @@ public class APIClient implements Result {
                 return;
             }
             uri = new URIBuilder().setScheme("http").setHost(host + ":" + port).setPath("/professor_x_web/report/do_add_data").build();
-            HttpPut put = new HttpPut(uri);
+            HttpPost put = new HttpPost(uri);
             nvps = new ArrayList<NameValuePair>();
             nvps.add(new BasicNameValuePair("title", title));
             Data data = new Data();
