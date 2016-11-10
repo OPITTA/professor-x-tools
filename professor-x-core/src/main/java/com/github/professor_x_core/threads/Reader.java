@@ -6,7 +6,7 @@ import com.github.professor_x_core.util.Logger;
 /**
  * 单线程读取测试数据
  *
- * @author xin.cao@100credit.com
+ * @author 510655387@qq.com
  */
 public class Reader implements Runnable {
 

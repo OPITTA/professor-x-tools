@@ -5,7 +5,7 @@ import com.github.professor_x_core.service.TaskPoolService;
 
 /**
  *
- * @author xin.cao@100credit.com
+ * @author 510655387@qq.com
  */
 public class SequenceSource implements Source {
 

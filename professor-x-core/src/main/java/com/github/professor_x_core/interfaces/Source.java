@@ -2,7 +2,7 @@ package com.github.professor_x_core.interfaces;
 
 /**
  *
- * @author xin.cao@100credit.com
+ * @author 510655387@qq.com
  */
 public interface Source {
 

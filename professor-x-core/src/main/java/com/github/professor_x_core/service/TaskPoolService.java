@@ -5,7 +5,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  *
- * @author xin.cao@100credit.com
+ * @author 510655387@qq.com
  */
 public class TaskPoolService {
 

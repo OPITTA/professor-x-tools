@@ -7,7 +7,7 @@ import com.github.professor_x_core.util.Logger;
 /**
  * 工作线程,用来模拟并发用户
  *
- * @author xin.cao@100credit.com
+ * @author 510655387@qq.com
  */
 public class Worker implements Runnable {
 

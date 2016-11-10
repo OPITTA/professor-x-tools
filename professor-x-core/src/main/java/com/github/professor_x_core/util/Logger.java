@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  *
- * @author xin.cao@100credit.com
+ * @author 510655387@qq.com
  */
 public class Logger {
 

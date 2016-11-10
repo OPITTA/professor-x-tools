@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 测试方法
  *
- * @author xin.cao@100credit.com
+ * @author 510655387@qq.com
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.TYPE})
