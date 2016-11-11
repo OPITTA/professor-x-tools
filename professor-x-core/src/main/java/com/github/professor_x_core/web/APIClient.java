@@ -80,16 +80,16 @@ public class APIClient implements Result {
             data.setConcurrency(concurrency);
             data.setMinRt((int) minRT);
             data.setMaxRt((int) maxRT);
-            data.setAverageRt((int) averageRT);
-            data.setTps((int) tps);
-            data.setErrorRate((int) errorNumber);
+            data.setAverageRt(averageRT);
+            data.setTps(tps);
+            data.setErrorRate(errorNumber);
             ObjectMapper objectMapper = new ObjectMapper();
             nvps.add(new BasicNameValuePair("data", objectMapper.writeValueAsString(data)));
             form = new UrlEncodedFormEntity(nvps);
             put.setEntity(form);
             response = client.execute(put);
             HttpEntity entity = response.getEntity();
-            EntityUtils.toString(entity);
+            Logger.info(EntityUtils.toString(entity));
         } catch (URISyntaxException e) {
             Logger.info(e.getMessage());
         } catch (IOException e) {
