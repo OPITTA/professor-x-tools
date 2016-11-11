@@ -9,6 +9,6 @@ package com.github.professor_x_core.interfaces;
  */
 public interface Result {
 
-    public void output(int concurrency, int total, long minRT, long maxRT, double averageRT, double tps, double errorNumber);
+    public void output(int concurrency, int total, int messageSize, long minRT, long maxRT, double averageRT, double tps, double errorNumber);
 
 }

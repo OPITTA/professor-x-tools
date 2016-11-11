@@ -15,6 +15,7 @@ public class Report {
     private int errorNumber; // 错误数
     private long minCostTime = Integer.MAX_VALUE; // 最小花费时间
     private long maxCostTime = Integer.MIN_VALUE; // 最大花费时间
+    private int messageSize = -1;
 
     private static Report report;
 
@@ -102,6 +103,14 @@ public class Report {
         if (maxCostTime > this.maxCostTime) {
             this.maxCostTime = maxCostTime;
         }
+    }
+
+    public int getMessageSize() {
+        return messageSize;
+    }
+
+    public void setMessageSize(int messageSize) {
+        this.messageSize = messageSize;
     }
 
 }

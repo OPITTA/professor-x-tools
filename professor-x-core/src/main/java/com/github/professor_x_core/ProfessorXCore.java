@@ -23,11 +23,11 @@ public class ProfessorXCore {
     private static final MethodService methodService = MethodService.getInstance();
 
     public static void main(String... args) {
-        bootstrap(new SourceD(), "localhost", 8080, "admin", "admin", "ext3 vs ext4", args);
+        bootstrap(new SourceD(), "localhost", 8080, "admin", "admin", "ext3 vs ext4", "ext3", args);
     }
 
-    public static void bootstrap(Source source, String host, int port, String username, String passwd, String title, String... args) {
-        APIClient apic = new APIClient(host, port, username, passwd, title);
+    public static void bootstrap(Source source, String host, int port, String username, String passwd, String topic, String title, String... args) {
+        APIClient apic = new APIClient(host, port, username, passwd, topic, title);
         bootstrap(source, apic, args);
     }
 

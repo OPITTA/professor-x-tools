@@ -14,7 +14,6 @@ import org.apache.http.ParseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -32,18 +31,20 @@ public class APIClient implements Result {
     private int port = 80;
     private String username = "admin";
     private String passwd = "admin";
-    private String title;
+    private final String topic;
+    private final String title;
 
-    public APIClient(String host, int port, String username, String passwd, String title) {
+    public APIClient(String host, int port, String username, String passwd, String topic, String title) {
         this.host = host;
         this.port = port;
         this.username = username;
         this.passwd = passwd;
+        this.topic = topic;
         this.title = title;
     }
 
     @Override
-    public void output(int concurrency, int total, long minRT, long maxRT, double averageRT, double tps, double errorNumber) {
+    public void output(int concurrency, int total, int messageSize, long minRT, long maxRT, double averageRT, double tps, double errorNumber) {
         try {
             CloseableHttpClient client = HttpClients.createDefault();
             URI uri = new URIBuilder().setScheme("http").setHost(host + ":" + port).setPath("/professor_x_web/do_login").build();
@@ -72,8 +73,10 @@ public class APIClient implements Result {
             uri = new URIBuilder().setScheme("http").setHost(host + ":" + port).setPath("/professor_x_web/report/do_add_data").build();
             HttpPost put = new HttpPost(uri);
             nvps = new ArrayList<NameValuePair>();
+            nvps.add(new BasicNameValuePair("topic", topic));
             nvps.add(new BasicNameValuePair("title", title));
             Data data = new Data();
+            data.setSampleSize(total);
             data.setConcurrency(concurrency);
             data.setMinRt((int) minRT);
             data.setMaxRt((int) maxRT);

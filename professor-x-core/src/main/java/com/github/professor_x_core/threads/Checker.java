@@ -62,7 +62,7 @@ public class Checker implements Runnable {
                         (total * 1.0 / (endTime - report.getStartTime())) * 1000,
                         (report.getErrorNumber() * 1.0 / total) * 100));
                 if (result != null) {
-                    result.output(report.getConcurrent(), total, report.getMinCostTime(), report.getMaxCostTime(), report.getConcurrenceCostTime().get() * 1.0 / total, (total * 1.0 / (endTime - report.getStartTime())) * 1000, (report.getErrorNumber() * 1.0 / total) * 100);
+                    result.output(report.getConcurrent(), total, report.getMessageSize(), report.getMinCostTime(), report.getMaxCostTime(), report.getConcurrenceCostTime().get() * 1.0 / total, (total * 1.0 / (endTime - report.getStartTime())) * 1000, (report.getErrorNumber() * 1.0 / total) * 100);
                 }
                 return;
             }
