@@ -2,19 +2,26 @@ package com.github.professor_x_core.web;
 
 import com.github.professor_x_core.interfaces.Result;
 import com.github.professor_x_core.util.Logger;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
+import org.apache.http.client.entity.GzipCompressingEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -71,11 +78,10 @@ public class APIClient implements Result {
                 return;
             }
             uri = new URIBuilder().setScheme("http").setHost(host + ":" + port).setPath("/professor_x_web/report/do_add_data").build();
-            HttpPost put = new HttpPost(uri);
-            nvps = new ArrayList<NameValuePair>();
-            nvps.add(new BasicNameValuePair("topic", topic));
-            nvps.add(new BasicNameValuePair("title", title));
+            post = new HttpPost(uri);
             Data data = new Data();
+            data.setTitle(title);
+            data.setTopic(topic);
             data.setSampleSize(total);
             data.setConcurrency(concurrency);
             data.setMinRt((int) minRT);
@@ -84,10 +90,11 @@ public class APIClient implements Result {
             data.setTps(tps);
             data.setErrorRate(errorNumber);
             ObjectMapper objectMapper = new ObjectMapper();
-            nvps.add(new BasicNameValuePair("data", objectMapper.writeValueAsString(data)));
-            form = new UrlEncodedFormEntity(nvps);
-            put.setEntity(form);
-            response = client.execute(put);
+            String c = objectMapper.writeValueAsString(data);
+            Logger.info(c);
+            GzipCompressingEntity gce = new GzipCompressingEntity(new StringEntity(c, "UTF-8"));
+            post.setEntity(gce);
+            response = client.execute(post);
             HttpEntity entity = response.getEntity();
             Logger.info(EntityUtils.toString(entity));
         } catch (URISyntaxException e) {
