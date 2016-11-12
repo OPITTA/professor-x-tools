@@ -10,6 +10,11 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
+            <groupId>com.github.OPITTA</groupId>
+            <artifactId>annotion_scan</artifactId>
+            <version>0.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
             <version>1.9.11</version>

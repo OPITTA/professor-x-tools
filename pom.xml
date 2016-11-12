@@ -10,13 +10,6 @@
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>com.github</groupId>
-            <artifactId>annotion_scan</artifactId>
-            <version>0.0.0</version>
-        </dependency>
-    </dependencies>
     <modules>
         <module>professor-x-core</module>
     </modules>
