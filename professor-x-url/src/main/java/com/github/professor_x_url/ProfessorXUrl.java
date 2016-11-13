@@ -14,10 +14,14 @@ import com.github.professor_x_url.model.Source;
 import com.github.professor_x_url.util.HttpClientUtils;
 import com.github.professor_x_url.util.ShutdownHook;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -27,7 +31,35 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class ProfessorXUrl {
 
     public static void main(String... args) throws IOException, URISyntaxException, InterruptedException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(ProfessorXUrl.class.getResourceAsStream("/professor_x_url.json")));
+        String conf;
+        File file;
+        if (args != null && args.length != 0) {
+            if (args.length % 2 != 0) {
+                help();
+                return;
+            } else {
+                Map<String, String> params = new HashMap<String, String>();
+                for (int i = 0; i < args.length; i += 2) {
+                    params.put(args[i], args[i + 1]);
+                }
+                if (params.containsKey("-conf")) {
+                    conf = params.get("-conf");
+                    file = new File(conf);
+                    if (!file.exists()) {
+                        help();
+                        return;
+                    }
+                } else {
+                    help();
+                    return;
+                }
+            }
+        } else {
+            help();
+            return;
+        }
+        FileInputStream fis = new FileInputStream(file);
+        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
         StringBuilder sb = new StringBuilder();
         String line;
         while ((line = br.readLine()) != null) {
@@ -77,5 +109,10 @@ public class ProfessorXUrl {
             }
         }
         Runtime.getRuntime().addShutdownHook(new ShutdownHook());
+    }
+
+    public static void help() {
+        ProfessorXCore.help();
+        Logger.info("请指定配置文件 : -conf professor_x_url.json");
     }
 }

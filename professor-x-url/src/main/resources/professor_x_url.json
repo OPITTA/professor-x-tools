@@ -36,9 +36,9 @@
     ],
     "source": {
         "type": "SEQUENCE",
-        "filename": "data.txt",
+        "filename": "/usr/local/data.txt",
         "div": ",",
         "indexs": [0, 1, 2, 3, 4],
-        "size": 1000
+        "size": 100
     }
 }

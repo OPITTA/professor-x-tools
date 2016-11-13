@@ -3,8 +3,11 @@ package com.github.professor_x_core.util;
 import com.github.professor_x_core.interfaces.Source;
 import com.github.professor_x_core.service.TaskPoolService;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +39,18 @@ public class FileSource implements Source {
 
     @Override
     public int read() {
-        InputStream is = FileSource.class.getResourceAsStream(String.format("/%s", filename));
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        File file = new File(filename);
+        FileInputStream fis;
+        InputStreamReader isr;
+        BufferedReader br;
+        try {
+            fis = new FileInputStream(file);
+            isr = new InputStreamReader(fis);
+            br = new BufferedReader(isr);
+        } catch (FileNotFoundException ex) {
+            Logger.info(ex.getMessage());
+            return 0;
+        }
         for (int index : indexs) {
             if (index < 0) {
                 Logger.info(String.format("indexs 中存在小于0的索引 %d", index));
@@ -89,7 +102,8 @@ public class FileSource implements Source {
         } finally {
             try {
                 br.close();
-                is.close();
+                isr.close();
+                fis.close();
             } catch (IOException ex) {
                 Logger.info(ex.getMessage());
             }

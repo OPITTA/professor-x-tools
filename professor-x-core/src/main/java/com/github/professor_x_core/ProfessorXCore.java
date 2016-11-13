@@ -136,7 +136,7 @@ public class ProfessorXCore {
         }
     }
 
-    private static void help() {
+    public static void help() {
         Logger.info("1.cmd -[c, t, m] value");
         Logger.info("2.com.github.professor_x_core.interfaces.Source 接口必须实现, 实现为读取数据源");
         Logger.info("3.com.github.professor_x_core.interfaces.Method 接口必须实现且需要使用@Test 标识, 实现为需要测试的代码块");
