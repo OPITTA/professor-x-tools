@@ -14,6 +14,14 @@ public class Configure {
     private Source source;
     private static Configure configure;
 
+    public static Configure getConfigure() {
+        return configure;
+    }
+
+    public static void setConfigure(Configure configure) {
+        Configure.configure = configure;
+    }
+
     public Professor getProfessor() {
         return professor;
     }

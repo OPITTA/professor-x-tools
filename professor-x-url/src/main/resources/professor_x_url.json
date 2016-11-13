@@ -8,7 +8,7 @@
         "title": "app随着并发数变化"
     },
     "login": {
-        "url": "localhost:8080/professor_x_web/do_login",
+        "url": "http://localhost:8080/professor_x_web/do_login",
         "method": "post",
         "data": {
             "account": "admin",
@@ -21,16 +21,21 @@
     },
     "flow": [
         {
-            "url": "localhost:8080/professor_x_web/report/do_add_data",
-            "method": "post",
+            "url": "http://localhost:8080/professor_x_web/report/list",
+            "method": "get"
+        },
+        {
+            "url": "http://localhost:8080/professor_x_web/report/chart",
+            "method": "get",
             "data": {
-                "topic": 0,
-                "title": 1
+                "report_id" : "13",
+                "start_time" : "2016-11-11",
+                "end_time" : "2016-11-13"
             }
         }
     ],
     "source": {
-        "type": "file",
+        "type": "SEQUENCE",
         "filename": "data.txt",
         "div": ",",
         "indexs": [0, 1, 2, 3, 4],

@@ -5,12 +5,16 @@ import com.github.professor_x_core.util.FileSource;
 import com.github.professor_x_core.util.Logger;
 import com.github.professor_x_core.util.SequenceSource;
 import com.github.professor_x_core.web.APIClient;
+import com.github.professor_x_url.constent.SourceType;
 import com.github.professor_x_url.model.Configure;
+import com.github.professor_x_url.model.Login;
 import com.github.professor_x_url.model.Professor;
 import com.github.professor_x_url.model.Source;
+import com.github.professor_x_url.service.HttpSessionService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -19,7 +23,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 public class ProfessorXUrl {
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) throws IOException, URISyntaxException, InterruptedException {
         BufferedReader br = new BufferedReader(new InputStreamReader(ProfessorXUrl.class.getResourceAsStream("/professor_x_url.json")));
         StringBuilder sb = new StringBuilder();
         String line;
@@ -29,14 +33,26 @@ public class ProfessorXUrl {
         ObjectMapper objectMapper = new ObjectMapper();
         Configure configure = objectMapper.readValue(sb.toString(), Configure.class);
         Logger.info(objectMapper.writeValueAsString(configure));
+        Configure.setConfigure(configure);
+        Login login = configure.getLogin();
+        if (login != null) {
+            Logger.info(HttpSessionService.getInstance().curl(login.getMethod(), login.getUrl(), null, login.getData()));
+        }
+        Thread.sleep(2000);
         Professor professor = configure.getProfessor();
         APIClient apic = new APIClient(professor.getHost(), professor.getPort(), professor.getAccount(), professor.getPasswd(), professor.getTopic(), professor.getTitle());
         Source source = configure.getSource();
-        
-        if (source.getType().equalsIgnoreCase("file")) {
-            ProfessorXCore.bootstrap(new FileSource(source.getFilename(), source.getDiv(), source.getIndexs(), source.getSize()), apic, args);
-        } else {
-            ProfessorXCore.bootstrap(new SequenceSource(source.getSize()), apic, args);
+        switch (SourceType.fromName(source.getType())) {
+            case FILE: {
+                ProfessorXCore.bootstrap(new FileSource(source.getFilename(), source.getDiv(), source.getIndexs(), source.getSize()), apic, args);
+                break;
+            }
+            case SEQUENCE: {
+                ProfessorXCore.bootstrap(new SequenceSource(source.getSize()), apic, args);
+                break;
+            }
+            default: {
+            }
         }
     }
 }
