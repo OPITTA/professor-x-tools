@@ -9,12 +9,15 @@ import com.github.professor_x_url.constent.SourceType;
 import com.github.professor_x_url.model.Configure;
 import com.github.professor_x_url.model.Login;
 import com.github.professor_x_url.model.Professor;
+import com.github.professor_x_url.model.Request;
 import com.github.professor_x_url.model.Source;
-import com.github.professor_x_url.service.HttpSessionService;
+import com.github.professor_x_url.util.HttpClientUtils;
+import com.github.professor_x_url.util.ShutdownHook;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -36,23 +39,43 @@ public class ProfessorXUrl {
         Configure.setConfigure(configure);
         Login login = configure.getLogin();
         if (login != null) {
-            Logger.info(HttpSessionService.getInstance().curl(login.getMethod(), login.getUrl(), null, login.getData()));
+            Logger.info(HttpClientUtils.getInstance().curl(login.getMethod(), login.getUrl(), null, login.getData()));
+            Logger.info("login 模块启动");
+            Thread.sleep(2000);
         }
-        Thread.sleep(2000);
         Professor professor = configure.getProfessor();
-        APIClient apic = new APIClient(professor.getHost(), professor.getPort(), professor.getAccount(), professor.getPasswd(), professor.getTopic(), professor.getTitle());
+        APIClient apic = null;
+        if (professor != null) {
+            apic = new APIClient(professor.getHost(), professor.getPort(), professor.getAccount(), professor.getPasswd(), professor.getTopic(), professor.getTitle());
+            Logger.info("professor 模块启动");
+        }
+        List<Request> flow = configure.getFlow();
+        if (flow == null) {
+            Logger.info("flow 模块是必须设置的");
+            return;
+        }
         Source source = configure.getSource();
         switch (SourceType.fromName(source.getType())) {
             case FILE: {
-                ProfessorXCore.bootstrap(new FileSource(source.getFilename(), source.getDiv(), source.getIndexs(), source.getSize()), apic, args);
+                if (apic != null) {
+                    ProfessorXCore.bootstrap(new FileSource(source.getFilename(), source.getDiv(), source.getIndexs(), source.getSize()), apic, args);
+                } else {
+                    ProfessorXCore.bootstrap(new FileSource(source.getFilename(), source.getDiv(), source.getIndexs(), source.getSize()), args);
+                }
                 break;
             }
             case SEQUENCE: {
-                ProfessorXCore.bootstrap(new SequenceSource(source.getSize()), apic, args);
+                if (apic != null) {
+                    ProfessorXCore.bootstrap(new SequenceSource(source.getSize()), apic, args);
+                } else {
+                    ProfessorXCore.bootstrap(new SequenceSource(source.getSize()), args);
+                }
                 break;
             }
             default: {
+                Logger.info("source 模块是必须设置的");
             }
         }
+        Runtime.getRuntime().addShutdownHook(new ShutdownHook());
     }
 }

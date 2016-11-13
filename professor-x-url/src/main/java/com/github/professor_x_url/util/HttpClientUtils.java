@@ -1,4 +1,4 @@
-package com.github.professor_x_url.service;
+package com.github.professor_x_url.util;
 
 import com.github.professor_x_url.constent.RequestMethod;
 import java.io.IOException;
@@ -24,24 +24,24 @@ import org.apache.http.util.EntityUtils;
  *
  * @author 510655387@qq.com
  */
-public class HttpSessionService {
+public class HttpClientUtils {
 
-    private static HttpSessionService httpSessionService;
+    private static HttpClientUtils httpClientUtils;
     private CloseableHttpClient httpClient = HttpClients.createDefault();
     private static Object lock = new Object();
 
-    private HttpSessionService() {
+    private HttpClientUtils() {
     }
 
-    public static HttpSessionService getInstance() {
-        if (httpSessionService == null) {
+    public static HttpClientUtils getInstance() {
+        if (httpClientUtils == null) {
             synchronized (lock) {
-                if (httpSessionService == null) {
-                    httpSessionService = new HttpSessionService();
+                if (httpClientUtils == null) {
+                    httpClientUtils = new HttpClientUtils();
                 }
             }
         }
-        return httpSessionService;
+        return httpClientUtils;
     }
 
     public String curl(String requestMethod, String url, Header[] headers, Map<String, Object> params) throws IOException, URISyntaxException {
@@ -88,4 +88,7 @@ public class HttpSessionService {
         return null;
     }
 
+    public void close() throws IOException {
+        this.httpClient.close();
+    }
 }

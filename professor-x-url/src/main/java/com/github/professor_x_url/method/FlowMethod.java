@@ -6,7 +6,7 @@ import com.github.professor_x_core.util.Logger;
 import com.github.professor_x_url.constent.SourceType;
 import com.github.professor_x_url.model.Configure;
 import com.github.professor_x_url.model.Request;
-import com.github.professor_x_url.service.HttpSessionService;
+import com.github.professor_x_url.util.HttpClientUtils;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -37,14 +37,14 @@ public class FlowMethod extends Method {
                             }
                         }
                     }
-                    Logger.info(HttpSessionService.getInstance().curl(request.getMethod(), request.getUrl(), null, request.getData()));
+                    Logger.info(HttpClientUtils.getInstance().curl(request.getMethod(), request.getUrl(), null, request.getData()));
                 }
                 break;
             }
             case SEQUENCE: {
                 Logger.info((Integer) params);
                 for (Request request : requests) {
-                    Logger.info(HttpSessionService.getInstance().curl(request.getMethod(), request.getUrl(), null, request.getData()));;
+                    Logger.info(HttpClientUtils.getInstance().curl(request.getMethod(), request.getUrl(), null, request.getData()));;
                 }
                 break;
             }
