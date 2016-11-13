@@ -144,7 +144,6 @@ public class ProfessorXCore {
         Logger.info("5.-c 并发数限制 0 < concurrent <= 1024 默认 1");
         Logger.info("6.-t 请求延时限制 cd > 0 默认 50ms; 建议阻塞调用设置小点, 计算密集调用设置大点, 小于0 为永不延时");
         Logger.info("7.-m 测试的方法类");
-        Logger.info("8.-s 样本大小");
         Logger.info("可以测试的方法有 : " + methodService.getMethodNames().toString());
     }
 }

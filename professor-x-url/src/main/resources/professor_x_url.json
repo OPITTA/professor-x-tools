@@ -1,0 +1,39 @@
+{
+    "professor": {
+        "host": "localhost",
+        "port": "8080",
+        "account": "admin",
+        "passwd": "admin",
+        "topic": "app测试",
+        "title": "app随着并发数变化"
+    },
+    "login": {
+        "url": "localhost:8080/professor_x_web/do_login",
+        "method": "post",
+        "data": {
+            "account": "admin",
+            "passwd": "admin"
+        },
+        "session": {
+            "keepalive": true,
+            "timeout": 30000
+        }
+    },
+    "flow": [
+        {
+            "url": "localhost:8080/professor_x_web/report/do_add_data",
+            "method": "post",
+            "data": {
+                "topic": 0,
+                "title": 1
+            }
+        }
+    ],
+    "source": {
+        "type": "file",
+        "filename": "data.txt",
+        "div": ",",
+        "indexs": [0, 1, 2, 3, 4],
+        "size": 1000
+    }
+}

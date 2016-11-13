@@ -2,16 +2,11 @@ package com.github.professor_x_core.web;
 
 import com.github.professor_x_core.interfaces.Result;
 import com.github.professor_x_core.util.Logger;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -91,7 +86,6 @@ public class APIClient implements Result {
             data.setErrorRate(errorNumber);
             ObjectMapper objectMapper = new ObjectMapper();
             String c = objectMapper.writeValueAsString(data);
-            Logger.info(c);
             GzipCompressingEntity gce = new GzipCompressingEntity(new StringEntity(c, "UTF-8"));
             post.setEntity(gce);
             response = client.execute(post);
