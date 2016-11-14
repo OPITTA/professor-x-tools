@@ -19,6 +19,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,7 @@ public class ProfessorXUrl {
     public static void main(String... args) throws IOException, URISyntaxException, InterruptedException {
         String conf;
         File file;
+        List<String> cmd = new ArrayList<String>();
         if (args != null && args.length != 0) {
             if (args.length % 2 != 0) {
                 help();
@@ -41,6 +44,8 @@ public class ProfessorXUrl {
                 Map<String, String> params = new HashMap<String, String>();
                 for (int i = 0; i < args.length; i += 2) {
                     params.put(args[i], args[i + 1]);
+                    cmd.add(args[i]);
+                    cmd.add(args[i + 1]);
                 }
                 if (params.containsKey("-conf")) {
                     conf = params.get("-conf");
@@ -58,6 +63,8 @@ public class ProfessorXUrl {
             help();
             return;
         }
+        cmd.add("-m");
+        cmd.add("FlowMethod");
         FileInputStream fis = new FileInputStream(file);
         BufferedReader br = new BufferedReader(new InputStreamReader(fis));
         StringBuilder sb = new StringBuilder();
@@ -90,17 +97,17 @@ public class ProfessorXUrl {
         switch (SourceType.fromName(source.getType())) {
             case FILE: {
                 if (apic != null) {
-                    ProfessorXCore.bootstrap(new FileSource(source.getFilename(), source.getDiv(), source.getIndexs(), source.getSize()), apic, args);
+                    ProfessorXCore.bootstrap(new FileSource(source.getFilename(), source.getDiv(), source.getIndexs(), source.getSize()), apic, cmd.toArray(new String[0]));
                 } else {
-                    ProfessorXCore.bootstrap(new FileSource(source.getFilename(), source.getDiv(), source.getIndexs(), source.getSize()), args);
+                    ProfessorXCore.bootstrap(new FileSource(source.getFilename(), source.getDiv(), source.getIndexs(), source.getSize()), cmd.toArray(new String[0]));
                 }
                 break;
             }
             case SEQUENCE: {
                 if (apic != null) {
-                    ProfessorXCore.bootstrap(new SequenceSource(source.getSize()), apic, args);
+                    ProfessorXCore.bootstrap(new SequenceSource(source.getSize()), apic, cmd.toArray(new String[0]));
                 } else {
-                    ProfessorXCore.bootstrap(new SequenceSource(source.getSize()), args);
+                    ProfessorXCore.bootstrap(new SequenceSource(source.getSize()), cmd.toArray(new String[0]));
                 }
                 break;
             }
