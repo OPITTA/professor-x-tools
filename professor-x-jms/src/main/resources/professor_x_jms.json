@@ -1,0 +1,30 @@
+{
+    "professor": {
+        "host": "192.168.162.237",
+        "port": "8080",
+        "account": "admin",
+        "passwd": "admin",
+        "topic": "amq_cluster",
+        "title": "amq_cluster随着并发数变化"
+    },
+    "jms": {
+        "address": "failover:(tcp://192.168.162.236:61616,tcp://192.168.162.237:61616)?jms.useAsyncSend=true",
+        "account": "bfd_bank",
+        "passwd": "123456"
+    },
+    "flow": [
+        {
+            "destination": "app-1",
+            "data": {
+                "say": "hello world!"
+            }
+        }
+    ],
+    "source": {
+        "type": "SEQUENCE",
+        "filename": "/usr/local/data.txt",
+        "div": ",",
+        "indexs": [0, 1, 2, 3, 4],
+        "size": 10000
+    }
+}

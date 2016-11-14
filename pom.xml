@@ -13,5 +13,6 @@
     <modules>
         <module>professor-x-core</module>
         <module>professor-x-url</module>
+        <module>professor-x-jms</module>
     </modules>
 </project>
