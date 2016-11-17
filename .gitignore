@@ -1,4 +1,6 @@
 /target/
+/annotion_scan/target/
 /professor-x-core/target/
 /professor-x-url/target/
 /professor-x-jms/target/
+

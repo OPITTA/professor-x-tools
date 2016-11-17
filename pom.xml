@@ -11,6 +11,7 @@
         <maven.compiler.target>1.6</maven.compiler.target>
     </properties>
     <modules>
+        <module>annotion_scan</module>
         <module>professor-x-core</module>
         <module>professor-x-url</module>
         <module>professor-x-jms</module>
