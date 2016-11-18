@@ -15,5 +15,11 @@
         <module>professor-x-core</module>
         <module>professor-x-url</module>
         <module>professor-x-jms</module>
+        <module>professor-x-kafka</module>
+        <module>professor-x-rabbitmq</module>
+        <module>professor-x-jdbc</module>
+        <module>professor-x-ice</module>
+        <module>professor-x-redis</module>
+        <module>professor-x-memcached</module>
     </modules>
 </project>
