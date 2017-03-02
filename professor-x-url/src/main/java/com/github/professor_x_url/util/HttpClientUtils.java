@@ -1,5 +1,6 @@
 package com.github.professor_x_url.util;
 
+import com.github.professor_x_core.util.Logger;
 import com.github.professor_x_url.constent.RequestMethod;
 import java.io.IOException;
 import java.net.URI;
@@ -51,7 +52,7 @@ public class HttpClientUtils {
                 nameValuePairs.add(new BasicNameValuePair(e.getKey(), String.valueOf(e.getValue())));
             }
         }
-        HttpResponse httpResponse;
+        HttpResponse httpResponse = null;
         switch (RequestMethod.fromName(requestMethod)) {
             case GET: {
                 URI uri = new URIBuilder(url).addParameters(nameValuePairs).build();
@@ -74,12 +75,7 @@ public class HttpClientUtils {
                 break;
             }
             default: {
-                URI uri = new URIBuilder(url).addParameters(nameValuePairs).build();
-                HttpGet httpGet = new HttpGet(uri);
-                if (headers != null) {
-                    httpGet.setHeaders(headers);
-                }
-                httpResponse = httpClient.execute(httpGet);
+                Logger.info(String.format("不支持的请求方法 method = %s url = %s params = %s", requestMethod, url, params));
             }
         }
         if (httpResponse != null) {

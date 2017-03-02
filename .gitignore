@@ -4,3 +4,9 @@
 /professor-x-url/target/
 /professor-x-jms/target/
 
+/professor-x-rabbitmq/target/
+/professor-x-ice/target/
+/professor-x-jdbc/target/
+/professor-x-kafka/target/
+/professor-x-memcached/target/
+/professor-x-redis/target/
